@@ -149,7 +149,7 @@ namespace OptimApp_Ivshin
                     this.chart1.Series[0].Points.AddXY("x5", x[4]);
                     this.chart1.Series[0].Points.AddXY("x6", x[5]);
                     tp_Output.Parent = Tc_Main;
-                    //MessageBox.Show(reportStr);
+                    MessageBox.Show(reportStr);
 
                 }
                 catch (Exception ex)
