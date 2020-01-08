@@ -87,6 +87,7 @@ namespace OptimApp_Ivshin
                 solverList.Add(new SolverRow { xId = 6, A1 = r[5, 0], A2 = r[5, 1], A3 = r[5, 2], Koef = (Material_Quantity - ((r[5, 0] * S_A1) + (r[5, 1] * S_A2) + (r[5, 2] * S_A3))) });
 
                 SolverContext cntxt = SolverContext.GetContext();
+                cntxt.ClearModel();
                 Model model = cntxt.CreateModel();
                 Set users = new Set(Domain.Any, "users");
 
@@ -119,29 +120,31 @@ namespace OptimApp_Ivshin
                     Solution solution = cntxt.Solve();
                     Report report = solution.GetReport();
 
-                    String reportStr = "";
+                    
                     double[] x = new double[6];
                     for (int i = 0; i < solverList.Count; i++)
                     {
-                        //reportStr += "Значение X" + (i + 1).ToString() + ": " + choose.GetDouble(solverList[i].xId) + "\n";
-                        x[i] = choose.GetDouble(solverList[i].xId);
+                   
+                       x[i] = choose.GetDouble(solverList[i].xId);
                         
                     }
-                    reportStr += "\n" + report.ToString();
+                    
                     if (dataGridView1.RowCount == 2)
                     {
-                        dataGridView1.SelectedRows[1].Cells[0].Value = x[0];
-                        dataGridView1.SelectedRows[1].Cells[1].Value = x[1];
-                        dataGridView1.SelectedRows[1].Cells[2].Value = x[2];
-                        dataGridView1.SelectedRows[1].Cells[3].Value = x[3];
-                        dataGridView1.SelectedRows[1].Cells[4].Value = x[4];
-                        dataGridView1.SelectedRows[1].Cells[5].Value = x[5];
+                        dataGridView1[0,0].Value = x[0];
+                        dataGridView1[1,0].Value = x[1];
+                        dataGridView1[2, 0].Value = x[2];
+                        dataGridView1[3, 0].Value = x[3];
+                        dataGridView1[4, 0].Value = x[4];
+                        dataGridView1[5, 0].Value = x[5];
+
                     }
                     else
                     {
+
                         dataGridView1.Rows.Add(x[0], x[1], x[2], x[3], x[4], x[5]);
                     }
-
+                    chart1.Series[0].Points.Clear();
                     this.chart1.Series[0].Points.AddXY("x1", x[0]);
                     this.chart1.Series[0].Points.AddXY("x2", x[1]);
                     this.chart1.Series[0].Points.AddXY("x3", x[2]);
@@ -149,7 +152,7 @@ namespace OptimApp_Ivshin
                     this.chart1.Series[0].Points.AddXY("x5", x[4]);
                     this.chart1.Series[0].Points.AddXY("x6", x[5]);
                     tp_Output.Parent = Tc_Main;
-                    MessageBox.Show(reportStr);
+                   // MessageBox.Show(reportStr);
 
                 }
                 catch (Exception ex)
